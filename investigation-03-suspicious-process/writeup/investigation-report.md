@@ -1,16 +1,16 @@
 # Investigation 03 – Suspicious Process Execution Review
 
 ## Alert Summary
-- Alert Source:
-- Alert Type:
-- Trigger Time:
-- Hostname:
-- User:
+- Alert Source: Windows Security Event Logs
+- Alert Type: Suspicious Process Execution Review
+- Trigger Time: Based on review of recent process creation events
+- Hostname: DESKTOP-VALRMMH
+- User: Local system / service accounts
 
 ## Initial Triage
-- Reason alert was generated
-- Initial risk assessment
-- Scope (host / user / process)
+- Investigation initiated to review recent process creation activity for potential suspicious execution
+- Initial risk assessed as low based on system context
+- Scope limited to host-level process execution events (Event ID 4688)
 
 ## Evidence Collected
 - logs/security.evtx
@@ -20,22 +20,22 @@
 - 4688 (Process Creation)
 
 ## Investigation Timeline
-- T0 – Alert triggered
-- T1 – Logs collected
-- T2 – Parent-child process relationships reviewed
-- T3 – Conclusion reached
+- T0 – Alert triggered: Review initiated based on process execution monitoring
+- T1 – Logs collected: Security event logs exported and parsed
+- T2 – Parent-child process relationships reviewed for anomalies
+- T3 – Conclusion reached based on absence of suspicious indicators
 
 ## Findings
-- Suspicious processes observed (if any)
-- Parent process anomalies
-- Command-line indicators
-- False positive or true positive
+Reviewed last 1000 process creation events (4688)
+No LOLBins observed (powershell/cmd/mshta/rundll32/regsvr32/etc.) in reviewed window
+No new processes launched from user-writable paths (Users/AppData/Temp/Downloads/ProgramData) in reviewed window
+Observed process chains consistent with normal Windows boot/system activity (e.g., smss.exe spawning core system processes)
 
 ## Conclusion
-- Final verdict
-- Business impact
-- Confidence level
+Final verdict: Benign / No suspicious process execution observed
+Business impact: None observed
+Confidence level: High (multiple negative checks, consistent system process patterns)
 
 ## Recommended Actions
-- Immediate response
-- Preventive controls
+No containment required
+Consider expanding telemetry in future (optional): enable enhanced process command-line logging / Sysmon for richer detection (don’t install it now—just recommend)
